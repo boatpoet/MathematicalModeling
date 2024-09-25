@@ -1,0 +1,183 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ChinaTeX MCM Contest Report Template
+%% Template by ChinaTeX, <chinatexer@gmail.com>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+\ProvidesPackage{MCMthesis}[2011/01/04 v4.0 MCM thesis]
+\typeout{MCMthesis for  MCM   Version 4.0}
+
+% packages
+\RequirePackage{color}          % color image and color definition
+\RequirePackage{fancyhdr,fancybox}       % personalize page header
+\RequirePackage{graphicx}       % include graphics
+\RequirePackage{ifthen}         % logic options
+\RequirePackage{lastpage}       % refer to the number of last page
+\RequirePackage{listings}       % format source code
+\RequirePackage[toc,page,title,titletoc,header]{appendix}%附录制作
+\RequirePackage{enumerate}
+%======数学公式===========
+\RequirePackage{amsthm,amsfonts}
+\RequirePackage{amsmath,bm}              % AMSLaTeX
+\RequirePackage{amssymb,mathrsfs}        % AMSLaTeX sym-bols
+\RequirePackage{latexsym}
+
+%========
+\RequirePackage{subfigure}      %
+\RequirePackage{longtable,multirow,hhline, tabularx,array,slashbox}       %@@表格相关
+\RequirePackage{flafter}
+\RequirePackage{pifont,calc}
+\RequirePackage{colortbl,booktabs}
+\definecolor{grey}{rgb}{0.91,0.91,0.91}
+% Declare Options
+\newcommand{\MCM@control}{2011}
+\DeclareOption*
+{
+    \edef\MCM@control{\CurrentOption}
+}
+
+% Process Options
+\ProcessOptions
+\newcommand{\control}{\MCM@control}
+\newcommand{\team}{Team \#\ \MCM@control}
+
+% if we are running pdflatex?
+\RequirePackage{ifpdf}
+
+% style: hyperlinked references
+\ifpdf
+\RequirePackage{epstopdf}
+\DeclareGraphicsExtensions{.pdf,.jpg,.jpeg,.png}
+\RequirePackage[bookmarks=true,%
+    linkcolor=black,%
+    citecolor=black,%
+    pagecolor=black,%
+    colorlinks=true, %注释掉此项则交叉引用为彩色边框(将colorlinks和pdfborder同时注释掉)
+    pdfborder=001,   %注释掉此项则交叉引用为彩色边框
+    linkcolor=black,%
+    citecolor=black,%
+    pagecolor=black,%
+    urlcolor=black]{hyperref}
+\else
+\DeclareGraphicsExtensions{.eps,.ps}
+\RequirePackage[dvipdfm,  %pdflatex,pdftex    这里决定运行文件的方式不同
+            pdfstartview=FitH,%
+            CJKbookmarks=true,%
+            bookmarksnumbered=true,%
+            bookmarksopen=true,%
+            colorlinks=true, %注释掉此项则交叉引用为彩色边框(将colorlinks和pdfborder同时注释掉)
+            pdfborder=001,   %注释掉此项则交叉引用为彩色边框
+            linkcolor=black,%
+            citecolor=black,%
+            pagecolor=black,%
+            urlcolor=black]{hyperref}
+\fi
+% 使整篇文章的首段都有缩进
+\let\@afterindentfalse\@afterindenttrue\@afterindenttrue
+
+% style: page layout
+\setlength{\headheight}{15pt}
+\setlength{\headsep}{20pt}
+\setlength{\footskip}{30pt}
+\setlength{\voffset}{-5pt}
+\setlength{\hoffset}{16pt}
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{\paperwidth-2\hoffset-2\oddsidemargin-2in}
+\setlength{\marginparpush}{0pt}
+\setlength{\marginparwidth}{0pt}
+\addtolength{\textheight}{3\baselineskip}
+
+%define the table of contents
+\renewcommand\tableofcontents{%
+    \centerline{\normalfont\Large\bfseries\contentsname
+        \@mkboth{%
+           \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
+    \vskip 5ex%
+    \@starttoc{toc}%
+    }
+
+\renewcommand*\l@section[2]{%
+  \ifnum \c@tocdepth >\z@
+    \addpenalty\@secpenalty
+    \addvspace{1.0em \@plus\p@}%
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \bfseries
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\leaders\hbox{$\m@th
+\mkern \@dotsep mu\hbox{.}\mkern \@dotsep
+ mu$}\hfill \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+    \endgroup
+  \fi}
+% style: float counter
+\setcounter{totalnumber}{6}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{3}
+%很多人发现缺省的浮动参数过于严格了。下面的命令
+\renewcommand{\textfraction}{0.15}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.65}
+\renewcommand{\floatpagefraction}{0.60}
+%将浮动参数重新设置为更宽松的值。---选自《Using Import graphics in LATEX2e》
+
+\long\def\keywords{\par{\bfseries Key Words: }}
+\let\endkeywords\relax
+
+% style: table & figure caption font size and face
+\renewcommand{\figurename}{Figure}
+\renewcommand{\tablename}{Table}
+
+% style: table vertical merged cells
+\newcommand{\thline}{\hline\par\hline\par\hline}
+
+% style: figure include path
+\graphicspath{{./}{./img/}{./fig/}{./image/}{./figure/}{./picture/}}
+
+%define the the bibliography like MCM collenction
+\newtheorem{Theorem}{Theorem}[section]%
+\newtheorem{Lemma}[Theorem]{Lemma}%
+\newtheorem{Corollary}[Theorem]{Corollary}%
+\newtheorem{Proposition}[Theorem]{Proposition}%
+\newtheorem{Definition}[Theorem]{Definition}%
+\newtheorem{Example}[Theorem]{Example}%
+% style: list typesetting
+\definecolor{grey}{rgb}{0.8,0.8,0.8}
+\definecolor{darkgreen}{rgb}{0,0.3,0}
+\definecolor{darkblue}{rgb}{0,0,0.3}
+\def\lstbasicfont{\fontfamily{pcr}\selectfont\footnotesize}
+\lstset{%
+% indexing
+   % numbers=left,
+   % numberstyle=\small,%
+% character display
+    showstringspaces=false,
+    showspaces=false,%
+    tabsize=4,%
+% style
+    frame=lines,%
+    basicstyle={\footnotesize\lstbasicfont},%
+    keywordstyle=\color{darkblue}\bfseries,%
+    identifierstyle=,%
+    commentstyle=\color{darkgreen},%\itshape,%
+    stringstyle=\color{black}%
+}
+\lstloadlanguages{C,C++,Java,Matlab,Mathematica}
+
+% style: COMAP required header
+\setcounter{page}{1}
+\pagestyle{fancy}
+\lhead{\small \team}
+\chead{}
+\rhead{\small Page \thepage\ of \pageref{LastPage}}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+
+
+
+
+\endinput 
